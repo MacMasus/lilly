@@ -35,8 +35,6 @@
 
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/ext_power.h>
 
 / {
     /*
@@ -44,199 +42,243 @@
      * Alle Makros sind als `&your_macro` in den Layern
      * verwendbar.
      */
-    macros {
 
+    macros {
         /* ── Allgemeine Shortcuts ─────────────────────── */
+
         macro_undo: macro_undo {
             compatible = "zmk,behavior-macro";
             label = "UNDO";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp Z>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp Z>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_redo: macro_redo {
             compatible = "zmk,behavior-macro";
             label = "REDO";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_press &kp LSHFT>
-                , <&macro_tap &kp Z>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_press>,
+                <&kp LSHFT>,
+                <&macro_tap>,
+                <&kp Z>,
+                <&macro_release>,
+                <&kp LSHFT>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_copy: macro_copy {
             compatible = "zmk,behavior-macro";
             label = "COPY";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp C>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp C>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_paste: macro_paste {
             compatible = "zmk,behavior-macro";
             label = "PASTE";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp V>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp V>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_cut: macro_cut {
             compatible = "zmk,behavior-macro";
             label = "CUT";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp X>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp X>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_save: macro_save {
             compatible = "zmk,behavior-macro";
             label = "SAVE";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp S>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp S>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_sel_all: macro_sel_all {
             compatible = "zmk,behavior-macro";
             label = "SEL_ALL";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp A>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp A>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         /* ── Photoshop / GIMP / Grafik ────────────────── */
+
         macro_new_layer: macro_new_layer {
             compatible = "zmk,behavior-macro";
             label = "NEW_LAYER";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_press &kp LSHFT>
-                , <&macro_tap &kp N>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_press>,
+                <&kp LSHFT>,
+                <&macro_tap>,
+                <&kp N>,
+                <&macro_release>,
+                <&kp LSHFT>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_dup_layer: macro_dup_layer {
             compatible = "zmk,behavior-macro";
             label = "DUP_LAYER";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp J>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp J>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_free_transform: macro_free_transform {
             compatible = "zmk,behavior-macro";
             label = "FREE_TRANSFORM";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp T>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp T>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_merge_visible: macro_merge_visible {
             compatible = "zmk,behavior-macro";
             label = "MERGE_VISIBLE";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_press &kp LSHFT>
-                , <&macro_press &kp LALT>
-                , <&macro_tap &kp E>
-                , <&macro_release &kp LALT>
-                , <&macro_release &kp LSHFT>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_press>,
+                <&kp LSHFT>,
+                <&macro_press>,
+                <&kp LALT>,
+                <&macro_tap>,
+                <&kp E>,
+                <&macro_release>,
+                <&kp LALT>,
+                <&macro_release>,
+                <&kp LSHFT>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_zoom_in: macro_zoom_in {
             compatible = "zmk,behavior-macro";
             label = "ZOOM_IN";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp EQUAL>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp EQUAL>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_zoom_out: macro_zoom_out {
             compatible = "zmk,behavior-macro";
             label = "ZOOM_OUT";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp MINUS>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp MINUS>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_fit_screen: macro_fit_screen {
             compatible = "zmk,behavior-macro";
             label = "FIT_SCREEN";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp N0>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp N0>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         /* ── Video-Editing (Premiere / DaVinci) ──────── */
+
         macro_add_edit: macro_add_edit {
             compatible = "zmk,behavior-macro";
             label = "ADD_EDIT";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LCTRL>
-                , <&macro_tap &kp K>
-                , <&macro_release &kp LCTRL>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LCTRL>,
+                <&macro_tap>,
+                <&kp K>,
+                <&macro_release>,
+                <&kp LCTRL>;
         };
 
         macro_ripple_del: macro_ripple_del {
             compatible = "zmk,behavior-macro";
             label = "RIPPLE_DEL";
             #binding-cells = <0>;
-            bindings
-                = <&macro_press &kp LSHFT>
-                , <&macro_tap &kp DEL>
-                , <&macro_release &kp LSHFT>
-                ;
+            bindings =
+                <&macro_press>,
+                <&kp LSHFT>,
+                <&macro_tap>,
+                <&kp DEL>,
+                <&macro_release>,
+                <&kp LSHFT>;
         };
     };
 
     /*
      * ─── Keymap ──────────────────────────────────────────
      */
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -266,13 +308,14 @@
          * WASD:   bleibt an Position (W=oben, A=home, S=home, D=home).
          * Space:  linker Daumen → Gaming + Touch-Typing.
          */
+
         default_layer {
             bindings = <
-&kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                      &kp N6   &kp N7    &kp N8    &kp N9    &kp N0    &kp GRAVE
-&kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T                       &kp Z    &kp U     &kp I     &kp O     &kp P     &kp MINUS
-&kp LCTRL &kp A     &kp S     &kp D     &kp F     &kp G                       &kp H    &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
-&kp LSHFT &kp Y     &kp X     &kp C     &kp V     &kp B  &kp LBKT   &kp RBKT &kp N    &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
-                        &kp LGUI &kp LALT &mo 1    &kp SPACE  &kp RET  &mo 2   &kp BSPC &kp RGUI
+&kp ESC    &kp N1  &kp N2  &kp N3    &kp N4    &kp N5                         &kp N6  &kp N7    &kp N8     &kp N9   &kp N0    &kp GRAVE
+&kp TAB    &kp Q   &kp W   &kp E     &kp R     &kp T                          &kp Y   &kp U     &kp I      &kp O    &kp P     &kp MINUS
+&kp LCTRL  &kp A   &kp S   &kp D     &kp F     &kp G                          &kp H   &kp J     &kp K      &kp L    &kp SEMI  &kp SQT
+&kp LSHFT  &kp Z   &kp X   &kp C     &kp V     &kp B   &kp LBKT     &kp RBKT  &kp N   &kp M     &kp COMMA  &kp DOT  &kp FSLH  &kp RSHFT
+                           &kp LGUI  &kp LALT  &mo 1   &kp SPACE    &kp RET   &mo 2   &kp BSPC  &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -302,13 +345,14 @@
          *          │TRN│TRN│LWR│   │     │TRN│TRN│RSE│TRN│
          *          └───┴───┴───┴───┘     └───┴───┴───┴───┘
          */
+
         lower_layer {
             bindings = <
-&kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6                      &kp F7   &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
-&kp GRAVE &kp HOME  &kp UP    &kp END   &kp PGUP  &kp TAB                     &trans   &trans    &trans    &trans    &trans    &trans
-&kp CAPS  &kp LEFT  &kp DOWN  &kp RIGHT &kp PGDN  &kp INS                     &trans   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
-&trans    &trans    &trans    &trans    &trans    &trans  &trans     &trans   &trans   &trans    &kp C_PREV &kp C_PP &kp C_NEXT &trans
-                        &trans    &trans    &mo 1    &trans     &trans  &mo 2   &trans    &trans
+&kp F1     &kp F2    &kp F3    &kp F4     &kp F5    &kp F6                     &kp F7  &kp F8    &kp F9      &kp F10   &kp F11     &kp F12
+&kp GRAVE  &kp HOME  &kp UP    &kp END    &kp PGUP  &kp TAB                    &trans  &trans    &trans      &trans    &trans      &trans
+&kp CAPS   &kp LEFT  &kp DOWN  &kp RIGHT  &kp PGDN  &kp INS                    &trans  &kp LEFT  &kp DOWN    &kp UP    &kp RIGHT   &trans
+&trans     &trans    &trans    &trans     &trans    &trans   &trans    &trans  &trans  &trans    &kp C_PREV  &kp C_PP  &kp C_NEXT  &trans
+                               &trans     &trans    &mo 1    &trans    &trans  &mo 2   &trans    &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
@@ -343,13 +387,14 @@
          *          │TRN│TRN│LWR│TRN│     │TRN│TRN│RSE│TRN│
          *          └───┴───┴───┴───┘     └───┴───┴───┴───┘
          */
+
         raise_layer {
             bindings = <
-&macro_undo &macro_redo &macro_copy  &macro_paste &macro_cut   &macro_save                    &kp GRAVE &kp TILDE &kp EXCL     &kp AT       &kp HASH     &kp DOLLAR
-&macro_zoom_out &macro_zoom_in &macro_fit_screen &macro_dup_layer &macro_free_transform &macro_merge_visible &kp PRCNT &kp CARET &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR
-&macro_new_layer &macro_sel_all   &kp LBKT &kp RBKT &trans  &trans                         &kp UNDER &kp MINUS &kp KP_PLUS &kp EQUAL    &kp LBRC     &kp RBRC
-&macro_add_edit &macro_ripple_del &trans    &trans    &trans    &trans  &trans   &trans  &trans    &trans     &kp LBKT     &kp RBKT     &kp BSLH     &kp PIPE
-                        &trans    &trans    &mo 1    &trans     &trans  &mo 2  &trans    &trans
+&macro_undo       &macro_redo        &macro_copy        &macro_paste      &macro_cut             &macro_save                             &kp GRAVE  &kp TILDE  &kp EXCL     &kp AT     &kp HASH  &kp DOLLAR
+&macro_zoom_out   &macro_zoom_in     &macro_fit_screen  &macro_dup_layer  &macro_free_transform  &macro_merge_visible                    &kp PRCNT  &kp CARET  &kp AMPS     &kp STAR   &kp LPAR  &kp RPAR
+&macro_new_layer  &macro_sel_all     &kp LBKT           &kp RBKT          &trans                 &trans                                  &kp UNDER  &kp MINUS  &kp KP_PLUS  &kp EQUAL  &kp LBRC  &kp RBRC
+&macro_add_edit   &macro_ripple_del  &trans             &trans            &trans                 &trans                &trans    &trans  &trans     &trans     &kp LBKT     &kp RBKT   &kp BSLH  &kp PIPE
+                                                        &trans            &trans                 &mo 1                 &trans    &trans  &mo 2      &trans     &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
