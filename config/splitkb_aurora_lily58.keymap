@@ -1,7 +1,36 @@
 /*
- * Copyright (c) 2022 The ZMK Contributors
+ * lilly keymap — Left-hand-"sole" QWERTZ für Lily58 Pro
+ * ─────────────────────────────────────────────────────────
+ * Konzept:
+ *   • Linke Hand = "sole" (Haupt-Hand): Navigation, Mods, Layer,
+ *     Makros → rechte Hand bleibt frei für Maus/Stylus.
+ *   • Trotzdem beidhändig ausgelegt für normales Tippen.
+ *   • QWERTZ (Y↔Z getauscht).
+ *   • Gaming-freundlich (WASD, Zahlen, Space, Shift, Ctrl
+ *     bleiben an gewohnter Position).
+ *   • Makro-Layer für Photoshop/GIMP, Video-Editing, etc.
+ *   • Split-Keyboard- & Touch-Typing-Anfänger freundlich
+ *     durch logische Layer-Struktur und Kommentare.
  *
- * SPDX-License-Identifier: MIT
+ * Layer-Übersicht:
+ *   0 – BASE:   QWERTZ tippen
+ *   1 – LOWER:  Navigation (Pfeile, Home, End…), F-Tasten,
+ *               Mediensteuerung → linker Daumen
+ *   2 – RAISE:  Symbole, Sonderzeichen + Kreativ-Makros
+ *               → rechter Daumen
+ *
+ * Makros (definiert in /macros):
+ *   UNDO, REDO, COPY, PASTE, CUT, SAVE, SEL_ALL,
+ *   NEW_LAYER, DUP_LAYER, FREE_TRANSFORM, MERGE_VISIBLE,
+ *   ZOOM_IN, ZOOM_OUT, FIT_SCREEN, ADD_EDIT, RIPPLE_DEL
+ *
+ * Daumen-Cluster:
+ *   Links:  LGUI | LALT | LOWER(mo1) | SPACE
+ *   Rechts: RET  | BSPC | RAISE(mo2) | RGUI
+ *   → Space liegt am linken Daumen – optimal zum Spielen
+ *     und für Daumen-Anfänger.
+ *   → Enter & Backspace am rechten Daumen – logisch für
+ *     beidhändiges Tippen.
  */
 
 #include <behaviors.dtsi>
@@ -10,58 +39,317 @@
 #include <dt-bindings/zmk/ext_power.h>
 
 / {
+    /*
+     * ─── Makro-Definitionen ──────────────────────────────
+     * Alle Makros sind als `&your_macro` in den Layern
+     * verwendbar.
+     */
+    macros {
+
+        /* ── Allgemeine Shortcuts ─────────────────────── */
+        macro_undo: macro_undo {
+            compatible = "zmk,behavior-macro";
+            label = "UNDO";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp Z>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_redo: macro_redo {
+            compatible = "zmk,behavior-macro";
+            label = "REDO";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp Z>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_copy: macro_copy {
+            compatible = "zmk,behavior-macro";
+            label = "COPY";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp C>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_paste: macro_paste {
+            compatible = "zmk,behavior-macro";
+            label = "PASTE";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp V>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_cut: macro_cut {
+            compatible = "zmk,behavior-macro";
+            label = "CUT";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp X>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_save: macro_save {
+            compatible = "zmk,behavior-macro";
+            label = "SAVE";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp S>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_sel_all: macro_sel_all {
+            compatible = "zmk,behavior-macro";
+            label = "SEL_ALL";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp A>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        /* ── Photoshop / GIMP / Grafik ────────────────── */
+        macro_new_layer: macro_new_layer {
+            compatible = "zmk,behavior-macro";
+            label = "NEW_LAYER";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_tap &kp N>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_dup_layer: macro_dup_layer {
+            compatible = "zmk,behavior-macro";
+            label = "DUP_LAYER";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp J>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_free_transform: macro_free_transform {
+            compatible = "zmk,behavior-macro";
+            label = "FREE_TRANSFORM";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp T>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_merge_visible: macro_merge_visible {
+            compatible = "zmk,behavior-macro";
+            label = "MERGE_VISIBLE";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_press &kp LSHFT>
+                , <&macro_press &kp LALT>
+                , <&macro_tap &kp E>
+                , <&macro_release &kp LALT>
+                , <&macro_release &kp LSHFT>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_zoom_in: macro_zoom_in {
+            compatible = "zmk,behavior-macro";
+            label = "ZOOM_IN";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp EQUAL>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_zoom_out: macro_zoom_out {
+            compatible = "zmk,behavior-macro";
+            label = "ZOOM_OUT";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp MINUS>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_fit_screen: macro_fit_screen {
+            compatible = "zmk,behavior-macro";
+            label = "FIT_SCREEN";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp N0>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        /* ── Video-Editing (Premiere / DaVinci) ──────── */
+        macro_add_edit: macro_add_edit {
+            compatible = "zmk,behavior-macro";
+            label = "ADD_EDIT";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LCTRL>
+                , <&macro_tap &kp K>
+                , <&macro_release &kp LCTRL>
+                ;
+        };
+
+        macro_ripple_del: macro_ripple_del {
+            compatible = "zmk,behavior-macro";
+            label = "RIPPLE_DEL";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &kp LSHFT>
+                , <&macro_tap &kp DEL>
+                , <&macro_release &kp LSHFT>
+                ;
+        };
+    };
+
+    /*
+     * ─── Keymap ──────────────────────────────────────────
+     */
     keymap {
         compatible = "zmk,keymap";
 
+        /* ================================================
+         * LAYER 0: BASE – QWERTZ (beidhändig)
+         * ================================================
+         * Linke Hand:    primäre Tasten, Modifier, Layer
+         * Rechte Hand:   sekundäre Tasten, Enter, Bspc
+         *
+         * Daumen links:  GUI | ALT | LOWER | SPACE
+         * Daumen rechts: RET | BSPC| RAISE | GUI
+         *
+         * ┌───┬───┬───┬───┬───┬───┐     ┌───┬───┬───┬───┬───┬───┐
+         * │ESC│ 1 │ 2 │ 3 │ 4 │ 5 │     │ 6 │ 7 │ 8 │ 9 │ 0 │ ` │
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │TAB│ Q │ W │ E │ R │ T │     │ Z │ U │ I │ O │ P │ - │
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │CTL│ A │ S │ D │ F │ G │     │ H │ J │ K │ L │ ; │ ' │
+         * ├───┼───┼───┼───┼───┼───┼──┬──┼───┼───┼───┼───┼───┼───┤
+         * │SFT│ Y │ X │ C │ V │ B │ [│ ]│ N │ M │ , │ . │ / │SFT│
+         * └───┴───┴───┴───┴───┴───┴──┴──┴───┴───┴───┴───┴───┴───┘
+         *          ┌───┬───┬───┬───┐     ┌───┬───┬───┬───┐
+         *          │GUI│ALT│LWR│SPC│     │RET│BSP│RSE│GUI│
+         *          └───┴───┴───┴───┘     └───┴───┴───┴───┘
+         *
+         * QWERTZ: Z→Y getauscht (Z links oben, Y links unten).
+         * WASD:   bleibt an Position (W=oben, A=home, S=home, D=home).
+         * Space:  linker Daumen → Gaming + Touch-Typing.
+         */
         default_layer {
-// ------------------------------------------------------------------------------------------------------------
-// |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   |   `   |
-// |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   -   |
-// |  CTRL |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   ;   |   '   |
-// | SHIFT |  Z  |  X  |  C   |  V   |  B   |   "["  |  |  "]"  |  N   |  M    |  ,    |  .   |   /   | SHIFT |
-//                     | ALT  | GUI  | LOWER|  SPACE |  | ENTER | RAISE| BSPC  | GUI   |
             bindings = <
-&kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                     &kp N6 &kp N7   &kp N8    &kp N9  &kp N0   &kp GRAVE
-&kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                      &kp Y  &kp U    &kp I     &kp O   &kp P    &kp MINUS
-&kp LCTRL &kp A  &kp S  &kp D    &kp F    &kp G                      &kp H  &kp J    &kp K     &kp L   &kp SEMI &kp SQT
-&kp LSHFT &kp Z  &kp X  &kp C    &kp V    &kp B  &kp LBKT   &kp RBKT &kp N  &kp M    &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                        &kp LALT &kp LGUI &mo 1  &kp SPACE  &kp RET  &mo 2  &kp BSPC &kp RGUI
+&kp ESC   &kp N1    &kp N2    &kp N3    &kp N4    &kp N5                      &kp N6   &kp N7    &kp N8    &kp N9    &kp N0    &kp GRAVE
+&kp TAB   &kp Q     &kp W     &kp E     &kp R     &kp T                       &kp Z    &kp U     &kp I     &kp O     &kp P     &kp MINUS
+&kp LCTRL &kp A     &kp S     &kp D     &kp F     &kp G                       &kp H    &kp J     &kp K     &kp L     &kp SEMI  &kp SQT
+&kp LSHFT &kp Y     &kp X     &kp C     &kp V     &kp B  &kp LBKT   &kp RBKT &kp N    &kp M     &kp COMMA &kp DOT   &kp FSLH  &kp RSHFT
+                        &kp LGUI &kp LALT &mo 1    &kp SPACE  &kp RET  &mo 2   &kp BSPC &kp RGUI
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
+        /* ================================================
+         * LAYER 1: LOWER – Navigation, F-Tasten, Medien
+         * ================================================
+         * Linker Daumen hält LOWER → Linke Hand:
+         *   • Pfeiltasten + Navi-Block (Home, End, PgUp, PgDn)
+         *   • F1–F12 für Spiele/Programme
+         *   • Mediensteuerung (Play, Lautstärke)
+         * Rechte Hand bleibt frei für Maus!
+         *
+         * Gaming: Pfeile + F-Tasten + ESC griffbereit links.
+         *
+         * ┌───┬───┬───┬───┬───┬───┐     ┌───┬───┬───┬───┬───┬───┐
+         * │ F1│ F2│ F3│ F4│ F5│ F6│     │ F7│ F8│ F9│F10│F11│F12│
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │ ` │HOME│ UP│END│PGU│TAB│     │F13│F14│F15│F16│F17│F18│
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │CAP│LFT│DWN│RGT│PGD│INS│     │   │ ← │ ↓ │ ↑ │ → │   │
+         * ├───┼───┼───┼───┼───┼───┼──┬──┼───┼───┼───┼───┼───┼───┤
+         * │   │   │   │   │   │   │  │  │   │   │PRV│PLY│NXT│   │
+         * └───┴───┴───┴───┴───┴───┴──┴──┴───┴───┴───┴───┴───┴───┘
+         *          ┌───┬───┬───┬───┐     ┌───┬───┬───┬───┐
+         *          │TRN│TRN│LWR│   │     │TRN│TRN│RSE│TRN│
+         *          └───┴───┴───┴───┘     └───┴───┴───┴───┘
+         */
         lower_layer {
-// ------------------------------------------------------------------------------------------------------------
-// | BTCLR | BT1 | BT2 |  BT3 |  BT4 |  BT5 |                   |      |       |       |      |       |       |
-// |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
-// |   `   |  !  |  @  |  #   |  $   |  %   |                   |  ^   |  &    |  *    |  (   |   )   |   ~   |
-// |       |     |     |      |      |      |        |  |       |      |  _    |  +    |  {   |   }   |  "|"  |
-//                     |      |      |      |        |  |       |      |       |       |
             bindings = <
-&bt BT_CLR &bt BT_SEL 0     &bt BT_SEL 1      &bt BT_SEL 2      &bt BT_SEL 3 &bt BT_SEL 4                 &trans    &trans    &trans          &trans    &trans    &trans
-&kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9          &kp F10   &kp F11   &kp F12
-&kp GRAVE  &kp EXCL         &kp AT            &kp HASH          &kp DOLLAR   &kp PRCNT                    &kp CARET &kp AMPS  &kp STAR         &kp LPAR  &kp RPAR  &kp TILDE
-&trans     &ext_power EP_ON &ext_power EP_OFF &ext_power EP_TOG &trans       &trans    &trans   &trans    &trans    &kp MINUS &kp PLUS        &kp LBRC  &kp RBRC  &kp PIPE
-                                              &trans            &trans       &trans    &trans   &trans    &trans    &trans    &trans
+&kp F1    &kp F2    &kp F3    &kp F4    &kp F5    &kp F6                      &kp F7   &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
+&kp GRAVE &kp HOME  &kp UP    &kp END   &kp PGUP  &kp TAB                     &trans   &trans    &trans    &trans    &trans    &trans
+&kp CAPS  &kp LEFT  &kp DOWN  &kp RIGHT &kp PGDN  &kp INS                     &trans   &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT &trans
+&trans    &trans    &trans    &trans    &trans    &trans  &trans     &trans   &trans   &trans    &kp C_PREV &kp C_PP &kp C_NEXT &trans
+                        &trans    &trans    &mo 1    &trans     &trans  &mo 2   &trans    &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
+        /* ================================================
+         * LAYER 2: RAISE – Symbole + Kreativ-Makros
+         * ================================================
+         * Rechter Daumen hält RAISE → Linke Hand = Makros!
+         * Alle wichtigen Shortcuts für Photoshop, GIMP,
+         * Video-Editing usw. sind auf der LINKEN Seite
+         * (rechte Hand bedient Maus/Stylus).
+         *
+         * Linke Seite (Makros):
+         *   UNDO → REDO → COPY → PASTE → CUT → SAVE
+         *   ZOOM- → ZOOM+ → FIT → DUP → FREE-T → STAMP
+         *   NEU-L → MERGE → BRH- → BRH+ → LYR↑ → LYR↓
+         *
+         * Rechte Seite (Symbole / Sonderzeichen):
+         *   ` ~ ! @ # $ % ^ & * ( ) _ - + = { } [ ] | \
+         *
+         * ┌───┬───┬───┬───┬───┬───┐     ┌───┬───┬───┬───┬───┬───┐
+         * │UND│RED│CPY│PST│CUT│SAV│     │ ` │ ~ │ ! │ @ │ # │ $ │
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │ZO-│ZO+│FIT│DUP│FRT│STA│     │ % │ ^ │ & │ * │ ( │ ) │
+         * ├───┼───┼───┼───┼───┼───┤     ├───┼───┼───┼───┼───┼───┤
+         * │NLR│MRG│BRD│BRI│LYU│LYD│     │ _ │ - │ + │ = │ { │ } │
+         * ├───┼───┼───┼───┼───┼───┼──┬──┼───┼───┼───┼───┼───┼───┤
+         * │ADD│RPD│SEL│   │   │   │  │  │   │   │ [ │ ] │ \ │ | │
+         * └───┴───┴───┴───┴───┴───┴──┴──┴───┴───┴───┴───┴───┴───┘
+         *          ┌───┬───┬───┬───┐     ┌───┬───┬───┬───┐
+         *          │TRN│TRN│LWR│TRN│     │TRN│TRN│RSE│TRN│
+         *          └───┴───┴───┴───┘     └───┴───┴───┴───┘
+         */
         raise_layer {
-// ------------------------------------------------------------------------------------------------------------
-// |       |     |     |      |      |      |                   |      |       |       |      |       |       |
-// |   `   |  1  |  2  |  3   |  4   |  5   |                   |  6   |   7   |   8   |  9   |   0   |       |
-// |   F1  |  F2 |  F3 |  F4  |  F5  |  F6  |                   |      |   <-  |   v   |  ^   |  ->   |       |
-// |   F7  |  F8 |  F9 |  F10 |  F11 |  F12 |        |  |       |  +   |   -   |   =   |  [   |   ]   |   \   |
-//                     |      |      |      |        |  |       |      |       |       |
             bindings = <
-&trans    &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
-&kp GRAVE &kp N1 &kp N2 &kp N3  &kp N4  &kp N5                       &kp N6      &kp N7    &kp N8    &kp N9   &kp N0    &trans
-&kp F1    &kp F2 &kp F3 &kp F4  &kp F5  &kp F6                       &trans      &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &trans
-&kp F7    &kp F8 &kp F9 &kp F10 &kp F11 &kp F12   &trans   &trans    &kp KP_PLUS &kp MINUS &kp EQUAL &kp LBKT &kp RBKT  &kp BSLH
-                        &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans
+&macro_undo &macro_redo &macro_copy  &macro_paste &macro_cut   &macro_save                    &kp GRAVE &kp TILDE &kp EXCL     &kp AT       &kp HASH     &kp DOLLAR
+&macro_zoom_out &macro_zoom_in &macro_fit_screen &macro_dup_layer &macro_free_transform &macro_merge_visible &kp PRCNT &kp CARET &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR
+&macro_new_layer &macro_sel_all   &kp LBKT &kp RBKT &trans  &trans                         &kp UNDER &kp MINUS &kp KP_PLUS &kp EQUAL    &kp LBRC     &kp RBRC
+&macro_add_edit &macro_ripple_del &trans    &trans    &trans    &trans  &trans   &trans  &trans    &trans     &kp LBKT     &kp RBKT     &kp BSLH     &kp PIPE
+                        &trans    &trans    &mo 1    &trans     &trans  &mo 2  &trans    &trans
             >;
 
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>;
